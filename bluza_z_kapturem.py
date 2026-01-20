@@ -149,7 +149,11 @@ def main():
         page += 1
 
     if new_links:
-        send_telegram("🆕 Nowe bluzy z kapturem:\n\n" + "\n\n➡️".join(new_links))
+        message = "🆕 Nowe bluzy z kapturem:\n\n" + "\n\n".join(
+            f"➜ {link}" for link in new_links
+        )
+        send_telegram(message)
+
 
     # 🔥 ZAWSZE zapisujemy bazę
     save_known_ids(all_ids)
@@ -161,4 +165,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
