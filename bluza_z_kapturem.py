@@ -6,6 +6,7 @@ import time
 import random
 import os
 import subprocess
+import re
 
 # ================== KONFIGURACJA ==================
 
@@ -154,12 +155,16 @@ def main():
             price_tag = item.find("span", {"data-testid": "item-price"})
             if not price_tag:
                 continue
-
-            price_text = price_tag.get_text(strip=True)
-            price_text = price_text.replace("zł", "").strip()
-
-            # ✅ FILTR KOŃCÓWEK
-            if price_text.endswith((",00", ",50", ",99")):
+            
+            raw_price = price_tag.get_text(" ", strip=True)
+            
+            match = re.search(r"\d+,\d{2}", raw_price)
+            if not match:
+                continue
+            
+            price_value = match.group()
+            
+            if price_value.endswith((",00", ",50", ",99")):
                 full_link = href
                 new_links.append(full_link)
 
@@ -182,6 +187,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
