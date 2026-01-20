@@ -24,7 +24,7 @@ BASE_URL = (
     "&order=newest_first"
 )
 
-KNOWN_IDS_FILE = "known_ids.txt"
+KNOWN_IDS_FILE = "bluza_z_kapturem.txt"
 
 TELEGRAM_BOT_TOKEN = "8516081401:AAH3645bZPzQhCtWgFp1PtdM0tZFj4JQjXk"
 TELEGRAM_CHAT_ID = "1233434142"
@@ -92,9 +92,9 @@ def git_commit_if_changed():
     )
 
     if status.stdout.strip():
-        subprocess.run(["git", "commit", "-m", "Update known_ids.txt"], check=False)
+        subprocess.run(["git", "commit", "-m", "Update bluza_z_kapturem.txt"], check=False)
         subprocess.run(["git", "push"], check=False)
-        print("📤 known_ids.txt zacommitowany")
+        print("📤 bluza_z_kapturem.txt zacommitowany")
     else:
         print("ℹ️ Brak zmian do commitu")
 
@@ -176,6 +176,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
