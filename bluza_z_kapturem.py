@@ -114,9 +114,15 @@ def main():
         url = BASE_URL if page == 1 else f"{BASE_URL}&page={page}"
         random_delay(4, 8)
 
-        r = session.get(url, headers=HEADERS, timeout=30)
-        if r.status_code != 200:
-            break
+        try:
+            r = session.get(url, headers=HEADERS, timeout=30)
+            r.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            print(f"⚠️ Błąd sieci na stronie {page}: {e}")
+            print("↻ Pomijam stronę i idę dalej")
+            page += 1
+            random_delay(6, 10)
+            continue
 
         soup = BeautifulSoup(r.text, "html.parser")
         items = soup.find_all("div", class_="new-item-box__container")
@@ -176,6 +182,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
