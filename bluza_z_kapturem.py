@@ -67,6 +67,7 @@ def save_known_ids(ids_set):
     with open(KNOWN_IDS_FILE, "w", encoding="utf-8") as f:
         for _id in sorted(ids_set):
             f.write(f"{_id}\n")
+    print(f"💾 Zapisano {len(ids_set)} ID do {KNOWN_IDS_FILE}")
 
 
 def send_telegram(message):
@@ -83,14 +84,19 @@ def git_commit_if_changed():
     subprocess.run(["git", "config", "user.name", "github-actions"], check=False)
     subprocess.run(["git", "config", "user.email", "actions@github.com"], check=False)
     subprocess.run(["git", "add", KNOWN_IDS_FILE], check=False)
-    result = subprocess.run(
+
+    status = subprocess.run(
         ["git", "status", "--porcelain"],
         capture_output=True,
         text=True
     )
-    if result.stdout.strip():
+
+    if status.stdout.strip():
         subprocess.run(["git", "commit", "-m", "Update known_ids.txt"], check=False)
         subprocess.run(["git", "push"], check=False)
+        print("📤 known_ids.txt zacommitowany")
+    else:
+        print("ℹ️ Brak zmian do commitu")
 
 # --------------------------------------------------
 
@@ -100,10 +106,11 @@ def main():
     new_links = []
 
     page = 1
+    stop_scanning = False
 
     print("➡️ Sprawdzanie nowych ogłoszeń...\n")
 
-    while True:
+    while not stop_scanning:
         url = BASE_URL if page == 1 else f"{BASE_URL}&page={page}"
         random_delay(4, 8)
 
@@ -131,21 +138,24 @@ def main():
             except IndexError:
                 continue
 
-            if item_id not in all_ids:
-                all_ids.add(item_id)
-                full_link = "https://www.vinted.pl" + href
-                new_links.append(full_link)
+            if item_id in known_ids:
+                stop_scanning = True
+                break
+
+            all_ids.add(item_id)
+            full_link = href
+            new_links.append(full_link)
 
         page += 1
 
     if new_links:
-        message = "🆕 Nowe ogłoszenia:\n\n" + "\n".join(new_links)
-        send_telegram(message)
-        save_known_ids(all_ids)
-        git_commit_if_changed()
-        print(f"✅ Wysłano {len(new_links)} nowych ogłoszeń")
-    else:
-        print("ℹ️ Brak nowych ogłoszeń")
+        send_telegram("🆕 Nowe ogłoszenia:\n\n" + "\n\n".join(new_links))
+
+    # 🔥 ZAWSZE zapisujemy bazę
+    save_known_ids(all_ids)
+    git_commit_if_changed()
+
+    print(f"✅ Nowe ogłoszenia: {len(new_links)}")
 
 # --------------------------------------------------
 
