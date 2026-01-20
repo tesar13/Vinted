@@ -143,8 +143,19 @@ def main():
                 break
 
             all_ids.add(item_id)
-            full_link = href
-            new_links.append(full_link)
+            
+            # 🔍 POBIERANIE CENY (TYLKO CENA PRZEDMIOTU)
+            price_tag = item.find("span", {"data-testid": "item-price"})
+            if not price_tag:
+                continue
+
+            price_text = price_tag.get_text(strip=True)
+            price_text = price_text.replace("zł", "").strip()
+
+            # ✅ FILTR KOŃCÓWEK
+            if price_text.endswith((",00", ",50", ",99")):
+                full_link = href
+                new_links.append(full_link)
 
         page += 1
 
@@ -165,5 +176,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
