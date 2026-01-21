@@ -152,7 +152,7 @@ def main():
             all_ids.add(item_id)
             
             # 🔍 POBIERANIE CENY (TYLKO CENA PRZEDMIOTU)
-            price_tag = item.find("span", {"data-testid": "item-price"})
+            price_tag = item.select_one('p[data-testid$="--price-text"]')
             if not price_tag:
                 continue
             
@@ -187,6 +187,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
