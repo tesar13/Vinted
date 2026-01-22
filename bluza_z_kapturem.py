@@ -165,7 +165,8 @@ def main():
             price_value = match.group()
             
             if price_value.endswith((",00", ",50", ",99")):
-                full_link = href
+                clean_href = href.split("?")[0]
+                full_link = clean_href
                 new_links.append(full_link)
 
         page += 1
@@ -187,6 +188,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
