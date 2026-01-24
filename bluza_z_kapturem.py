@@ -23,6 +23,9 @@ BASE_URL = (
     "&material_ids[]=44"
     "&order=newest_first"
 )
+# zmień na True jeśli chcesz żeby skrypt pobierał tylko ogłoszenia z Polski
+TYLKO_PL = False # 🔥🔥🔥🔥🔥
+# zmień na True jeśli chcesz żeby skrypt pobierał tylko ogłoszenia z Polski
 
 KNOWN_IDS_FILE = "bluza_z_kapturem.txt"
 
@@ -163,7 +166,7 @@ def main():
             
             price_value = match.group()
             
-            if price_value.endswith((",00", ",50", ",99")):
+            if not TYLKO_PL or price_value.endswith((",00", ",50", ",99")):
                 clean_href = href.split("?")[0]
                 full_link = clean_href
                 new_links.append(full_link)
@@ -187,6 +190,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
