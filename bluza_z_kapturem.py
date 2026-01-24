@@ -27,7 +27,7 @@ BASE_URL = (
 
 KNOWN_IDS_FILE = "bluza_z_kapturem.txt"
 
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 # ==================================================
@@ -72,7 +72,7 @@ def save_known_ids(ids_set):
 
 
 def send_telegram(message):
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": message,
@@ -188,6 +188,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
