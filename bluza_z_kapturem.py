@@ -23,7 +23,7 @@ BASE_URL = (
     "&order=newest_first"
 )
 # zmień na True jeśli chcesz żeby skrypt pobierał tylko ogłoszenia z Polski
-TYLKO_PL = False # 🔥🔥🔥🔥🔥
+TYLKO_PL = False # ⬅️⬅️⬅️⬅️⬅️
 # zmień na True jeśli chcesz żeby skrypt pobierał tylko ogłoszenia z Polski
 
 KNOWN_IDS_FILE = "bluza_z_kapturem.txt"
@@ -189,6 +189,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
