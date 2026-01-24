@@ -13,7 +13,7 @@ import re
 BASE_URL = (
     "https://www.vinted.pl/catalog"
     "?catalog[]=267"
-    "&price_to=35.00"
+    "&price_to=25.00"
     "&currency=PLN"
     "&size_ids[]=208"
     "&size_ids[]=209"
@@ -21,7 +21,6 @@ BASE_URL = (
     "&status_ids[]=1"
     "&status_ids[]=2"
     "&material_ids[]=44"
-    "&color_ids[]=1"
     "&order=newest_first"
 )
 
@@ -188,6 +187,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
