@@ -27,8 +27,8 @@ BASE_URL = (
 
 KNOWN_IDS_FILE = "bluza_z_kapturem.txt"
 
-TELEGRAM_BOT_TOKEN = "8516081401:AAH3645bZPzQhCtWgFp1PtdM0tZFj4JQjXk"
-TELEGRAM_CHAT_ID = "1233434142"
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 # ==================================================
 
@@ -188,6 +188,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
