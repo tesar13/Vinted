@@ -201,12 +201,13 @@ def main():
     save_known_ids(all_ids)
     git_commit_if_changed()
 
-    print(f"✅ Nowe ogłoszenia: {len(new_links)}")
+    print(f"✅ Nowe ogłoszenia: {len(new_items)}")
 
 # --------------------------------------------------
 
 if __name__ == "__main__":
     main()
+
 
 
 
