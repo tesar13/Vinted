@@ -77,8 +77,7 @@ def send_telegram(message):
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": message,
-        "disable_web_page_preview": True,
-        "parse_mode": "Markdown"
+        "disable_web_page_preview": True
     }
     requests.post(url, data=payload, timeout=15)
 
@@ -101,25 +100,12 @@ def git_commit_if_changed():
     else:
         print("ℹ️ Brak zmian do commitu")
 
-def extract_name_from_url(href):
-    """Wyciąga nazwę z URL w stylu: /items/123456789-jakiś-tytuł-produktu """
-    try:
-        # bierzemy część po /items/
-        slug = href.split("/items/", 1)[1]
-        # odcinamy ID i pierwszy myślnik
-        name_part = slug.split("-", 1)[1]
-        # zamieniamy myślniki na spacje i usuwamy zbędne białe znaki
-        name = name_part.replace("-", " ").strip()
-        return name if name else "Rzecz bez nazwy"
-    except (IndexError, AttributeError):
-        return "Rzecz bez nazwy"
-
 # --------------------------------------------------
 
 def main():
     known_ids = load_known_ids()
     all_ids = set(known_ids)
-    new_items = []
+    new_links = []
 
     page = 1
     stop_scanning = False
@@ -180,20 +166,16 @@ def main():
             price_value = match.group()
             
             if not TYLKO_PL or price_value.endswith((",00", ",50", ",99")):
-
                 clean_href = href.split("?")[0]
-                full_link = "https://www.vinted.pl" + clean_href if not clean_href.startswith("http") else clean_href
-                nazwa = extract_name_from_url(href)
-                new_items.append((full_link, nazwa))
+                full_link = clean_href
+                new_links.append(full_link)
 
         page += 1
 
-    if new_items:
-        message_lines = ["🆕 Nowe bluzy z kapturem:\n"]
-        for link, nazwa in new_items:
-            message_lines.append(f"➜ [{nazwa}]({link})")
-        
-        message = "\n".join(message_lines)
+    if new_links:
+        message = "🆕 Nowe bluzy z kapturem:\n\n" + "\n\n".join(
+            f"➜ {link}" for link in new_links
+        )
         send_telegram(message)
 
 
@@ -201,15 +183,12 @@ def main():
     save_known_ids(all_ids)
     git_commit_if_changed()
 
-    print(f"✅ Nowe ogłoszenia: {len(new_items)}")
+    print(f"✅ Nowe ogłoszenia: {len(new_links)}")
 
 # --------------------------------------------------
 
 if __name__ == "__main__":
     main()
-
-
-
 
 
 
