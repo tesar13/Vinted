@@ -77,7 +77,8 @@ def send_telegram(message):
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": message,
-        "disable_web_page_preview": True
+        "disable_web_page_preview": True,
+        "parse_mode": "Markdown"
     }
     requests.post(url, data=payload, timeout=15)
 
@@ -100,12 +101,25 @@ def git_commit_if_changed():
     else:
         print("ℹ️ Brak zmian do commitu")
 
+def extract_name_from_url(href):
+    """Wyciąga nazwę z URL w stylu: /items/123456789-jakiś-tytuł-produktu """
+    try:
+        # bierzemy część po /items/
+        slug = href.split("/items/", 1)[1]
+        # odcinamy ID i pierwszy myślnik
+        name_part = slug.split("-", 1)[1]
+        # zamieniamy myślniki na spacje i usuwamy zbędne białe znaki
+        name = name_part.replace("-", " ").strip()
+        return name if name else "Rzecz bez nazwy"
+    except (IndexError, AttributeError):
+        return "Rzecz bez nazwy"
+
 # --------------------------------------------------
 
 def main():
     known_ids = load_known_ids()
     all_ids = set(known_ids)
-    new_links = []
+    new_items = []
 
     page = 1
     stop_scanning = False
@@ -166,9 +180,11 @@ def main():
             price_value = match.group()
             
             if not TYLKO_PL or price_value.endswith((",00", ",50", ",99")):
+
                 clean_href = href.split("?")[0]
-                full_link = clean_href
-                new_links.append(full_link)
+                full_link = "https://www.vinted.pl" + clean_href if not clean_href.startswith("http") else clean_href
+                nazwa = extract_name_from_url(href)
+                new_items.append((full_link, nazwa))
 
         page += 1
 
@@ -189,6 +205,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
