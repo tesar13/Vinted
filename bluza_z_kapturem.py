@@ -188,10 +188,12 @@ def main():
 
         page += 1
 
-    if new_links:
-        message = "🆕 Nowe bluzy z kapturem:\n\n" + "\n\n".join(
-            f"➜ {link}" for link in new_links
-        )
+    if new_items:
+        message_lines = ["🆕 Nowe bluzy z kapturem:\n"]
+        for link, nazwa in new_items:
+            message_lines.append(f"➜ [{nazwa}]({link})")
+        
+        message = "\n".join(message_lines)
         send_telegram(message)
 
 
@@ -205,6 +207,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
