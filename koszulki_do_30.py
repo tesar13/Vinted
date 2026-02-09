@@ -21,6 +21,7 @@ BASE_URL = (
     "&brand_ids[]=1845"
     "&brand_ids[]=407"
     "&brand_ids[]=2287"
+    "&brand_ids[]=53"
     "&size_ids[]=208"
     "&price_to=30.00"
     "&currency=PLN"
@@ -196,6 +197,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
