@@ -13,17 +13,19 @@ import re
 BASE_URL = (
     "https://www.vinted.pl/catalog"
     "?catalog[]=76"
-    "&brand_ids[]=57542" #Farah
-    "&brand_ids[]=17" #Esprit
-    "&brand_ids[]=259" #Wrangler
-    "&brand_ids[]=2319" #The North Face
-    "&brand_ids[]=14" #Adidas
-    "&brand_ids[]=1845" #Tom Tailor
-    "&brand_ids[]=407" #Lee Cooper
-    "&brand_ids[]=2287" #Next
-    "&brand_ids[]=53" #Nike
-    "&brand_ids[]=63" #Lee
-    "&brand_ids[]=10" #Levi's
+    "&brand_ids[]=57542"  # Farah
+    "&brand_ids[]=17"     # Esprit
+    "&brand_ids[]=259"    # Wrangler
+    "&brand_ids[]=407"    # Lee Cooper
+    "&brand_ids[]=2287"   # Next
+    "&brand_ids[]=63"     # Lee
+    "&brand_ids[]=10"     # Levi's
+    "&brand_ids[]=147650"
+    "&brand_ids[]=17251"
+    "&brand_ids[]=773905"
+    "&brand_ids[]=368718"
+    "&brand_ids[]=4690624"
+    "&size_ids[]=209"
     "&size_ids[]=208"
     "&price_to=30.00"
     "&currency=PLN"
@@ -199,6 +201,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
